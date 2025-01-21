@@ -6,7 +6,13 @@
     <title>Document</title>
 </head>
 <body>
-    <p>Ik ben een privacy verklaring lol!</p>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus tempore obcaecati perspiciatis dolorem vero possimus sunt ut. Atque beatae inventore, cumque fugit fuga reprehenderit porro est voluptate voluptatum, debitis iste?</p>    
+<?php
+    $privacyverklaring = "privacy_statement_21-01-2025.txt";
+    if(file_exists($privacyverklaring)) {
+        echo nl2br(file_get_contents($privacyverklaring)); //nl2br voor het makkelijk en mooi laten zien van lege regels etc.
+    }
+    else 
+        echo"kan privacyverklaring niet ophalen";
+?>
 </body>
 </html>

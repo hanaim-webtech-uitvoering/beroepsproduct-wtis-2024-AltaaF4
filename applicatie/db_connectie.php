@@ -15,7 +15,7 @@ $verbinding = new PDO('sqlsrv:Server=' . $db_host . ';Database=' . $db_name . ';
 unset($db_password);
 
 // Zorg ervoor dat eventuele fouttoestanden ook echt als fouten (exceptions) gesignaleerd worden door PHP.
-$verbinding->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$verbinding->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 
 // Functie om in andere files toegang te krijgen tot de verbinding.
 function maakVerbinding() {
