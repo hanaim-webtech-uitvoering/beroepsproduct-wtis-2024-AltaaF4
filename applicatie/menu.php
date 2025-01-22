@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +18,6 @@
    //winkelmandje-PROCES IS TOEVOEGEN VAN PRODUCTEN IN EEN SESSIE VANUIT MENU.html
    //winkelmandje is uiteindelijke mandje
    
-
     <br>
     <a href="winkelmandje.php">Bekijk winkelmandje</a>
 </body>

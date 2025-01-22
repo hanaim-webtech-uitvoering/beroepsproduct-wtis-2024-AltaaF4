@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['role'] = $user['role'];
 
         echo "Welkom, " . htmlspecialchars($user['username']) . "! U bent succesvol ingelogd. U word naar de menu pagina gestuurd binnen 10 seconden.";
-        header("Location: menu.html");
+        header("Location: menu.php");
         exit;
     } else {
         // Ongeldig wachtwoord of gebruikersnaam
@@ -35,4 +35,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 //var_dump($username, $password);
+
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inloggen</title>
+</head>
+<body>
+    <h1>Login Pagina</h1>
+    <form method="POST">
+        <input type="text" name="username" placeholder="Gebruikersnaam" required>
+        <input type="password" name="password" placeholder="Wachtwoord" required>
+        <button type="submit">Inloggen</button>
+    </form>
+</body>
+</html>
