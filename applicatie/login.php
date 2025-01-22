@@ -25,8 +25,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
 
-        echo "Welkom, " . htmlspecialchars($user['username']) . "! U bent succesvol ingelogd. U word naar de menu pagina gestuurd binnen 10 seconden.";
-        header("Location: menu.php");
+        // Controleer de rol van de gebruiker en stuur door naar de juiste pagina
+        if ($user['role'] === 'Client') {
+            header("Location: menu.php");
+        } elseif ($user['role'] === 'Personnel') {
+            header("Location: bestellingoverzicht-personeel.php");
+        } else {
+            // Onbekende rol
+            die('Onbekende gebruikersrol.');
+        }
         exit;
     } else {
         // Ongeldig wachtwoord of gebruikersnaam
@@ -34,11 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-//var_dump($username, $password);
-
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
