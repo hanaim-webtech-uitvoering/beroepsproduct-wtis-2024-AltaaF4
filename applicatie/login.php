@@ -26,14 +26,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Controleer de rol van de gebruiker en stuur door naar de juiste pagina
         if ($user['role'] === 'Client') {
             header("Location: menu.php");
-            exit; 
+            exit;
         } elseif ($user['role'] === 'Personnel') {
             header("Location: bestellingoverzicht-personeel.php");
-            exit; 
+            exit;
         } else {
             die('Onbekende gebruikersrol.');
         }
-        
+
         exit;
     } else {
         // Ongeldig wachtwoord of gebruikersnaam
@@ -44,11 +44,13 @@ print_r($_SESSION);
 ?>
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inloggen</title>
 </head>
+
 <body>
     <h1>Login Pagina</h1>
     <form method="POST">
@@ -57,4 +59,5 @@ print_r($_SESSION);
         <button type="submit">Inloggen</button>
     </form>
 </body>
+
 </html>

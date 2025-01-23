@@ -25,25 +25,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id']) && isset(
 }
 
 // Haal alle bestellingen op, inclusief statusnamen
-$query = "
-    SELECT 
-        po.order_id,
-        po.client_name,
-        po.personnel_username,
-        po.datetime,
-        po.status,
+$query = "SELECT po.order_id, po.client_name, po.personnel_username, po.datetime, po.status,
         CASE 
             WHEN po.status = 1 THEN 'In behandeling'
             WHEN po.status = 2 THEN 'Verzonden'
             WHEN po.status = 3 THEN 'Afgeleverd'
-            ELSE 'Onbekend'
-        END AS status_name,
-        po.address
-    FROM 
-        Pizza_Order po
-    ORDER BY 
-        po.datetime DESC
-";
+        ELSE 'Onbekend'
+    END AS status_name, po.address
+    FROM Pizza_Order po
+    ORDER BY po.datetime DESC";
 
 $stmt = $db->query($query);
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -51,11 +41,13 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bestelling Overzicht</title>
 </head>
+
 <body>
     <h1>Bestelling Overzicht</h1>
 
@@ -114,4 +106,5 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <a href="loguit.php">Uitloggen</a>
     </div>
 </body>
+
 </html>

@@ -12,25 +12,16 @@ $username = $_SESSION['username'];
 $db = maakVerbinding();
 
 // Haal bestellingen op voor de ingelogde klant
-$query = "
-    SELECT 
-        po.order_id,
-        po.datetime,
-        po.status,
-        po.address,
-        CASE 
-            WHEN po.status = 1 THEN 'In behandeling'
-            WHEN po.status = 2 THEN 'Verzonden'
-            WHEN po.status = 3 THEN 'Afgeleverd'
-            ELSE 'Onbekend'
+$query = "SELECT po.order_id, po.datetime, po.status, po.address,
+CASE 
+    WHEN po.status = 1 THEN 'In behandeling'
+    WHEN po.status = 2 THEN 'Verzonden'
+    WHEN po.status = 3 THEN 'Afgeleverd'
+        ELSE 'Onbekend'
         END AS status_name
-    FROM 
-        Pizza_Order po
-    WHERE 
-        po.client_username = ?
-    ORDER BY 
-        po.datetime DESC
-";
+FROM Pizza_Order po
+WHERE po.client_username = ?
+ORDER BY po.datetime DESC";
 
 $stmt = $db->prepare($query);
 $stmt->execute([$username]);
@@ -62,7 +53,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <tbody>
                 <?php foreach ($orders as $order): ?>
                     <tr>
-                        <td><?=htmlspecialchars($order['order_id']) ?></td>
+                        <td><?= htmlspecialchars($order['order_id']) ?></td>
                         <td><?= htmlspecialchars($order['datetime']) ?></td>
                         <td><?= htmlspecialchars($order['status_name']) ?></td>
                         <td><?= htmlspecialchars($order['address']) ?></td>

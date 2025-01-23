@@ -17,11 +17,7 @@ $role = $_SESSION['role'];
 $db = maakVerbinding();
 
 // Haal alle producten op
-$query = "
-    SELECT name, price 
-    FROM Product 
-    ORDER BY name ASC
-";
+$query = "SELECT name, price FROM Product ORDER BY name ASC";
 
 $stmt = $db->query($query);
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -30,11 +26,13 @@ print_r($_SESSION);
 
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
-   </head>
+</head>
+
 <body>
     <h1>Menu</h1>
     <div class="actions">
@@ -71,10 +69,11 @@ print_r($_SESSION);
         </tbody>
     </table>
     <div class="actions">
-    <a href="loguit.php">Uitloggen</a> | 
-    <a href="afrekenen.php">Afrekenen</a> |
-    <a href="status.php">Status Bestelling(en)</a>
-</div>
+        <a href="loguit.php">Uitloggen</a> |
+        <a href="afrekenen.php">Afrekenen</a> |
+        <a href="status.php">Status Bestelling(en)</a>
+    </div>
 
 </body>
+
 </html>

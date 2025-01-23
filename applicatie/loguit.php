@@ -1,8 +1,7 @@
 <?php
 session_start();
-session_unset();  // Verwijder alle sessievariabelen
-session_destroy(); // Vernietig de sessie
+session_unset();
+session_destroy();
 
 header("Location: index.php");  // Redirect naar loginpagina
 exit;
-?>

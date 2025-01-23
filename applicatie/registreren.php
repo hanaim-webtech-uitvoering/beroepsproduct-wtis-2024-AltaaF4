@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $query = "INSERT INTO [User] (username, password, first_name, last_name, role, address) 
               VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $db->prepare($query);
-   
+
     //debugging van chatgpt
     try {
         $stmt->execute([$username, $hashed_password, $first_name, $last_name, $role, $address]);
@@ -46,11 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registratie</title>
 </head>
+
 <body>
     <h1>Welkom op de registratiepagina</h1>
     <p>Hier kunt u een account creëren voor toekomstige bestellingen.</p>
@@ -74,4 +76,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit">Registreren!</button>
     </form>
 </body>
+
 </html>

@@ -5,15 +5,7 @@ require_once('db_connectie.php');
 $db = maakVerbinding();
 
 // Haal alle producten op
-$query = "
-    SELECT 
-        name,
-        price
-    FROM 
-        Product
-    ORDER BY 
-        name ASC
-";
+$query = "SELECT name, price FROM Product ORDER BY name ASC";
 
 $stmt = $db->query($query);
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -22,15 +14,17 @@ print_r($_SESSION);
 
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
 </head>
+
 <body>
     <h1>Menu</h1>
     <p>Welkom! Bekijk de producten hieronder. Log in om bestellingen toe te voegen aan je winkelmand.</p>
-    
+
     <table>
         <thead>
             <tr>
@@ -53,7 +47,8 @@ print_r($_SESSION);
             <?php endif; ?>
         </tbody>
     </table>
-    
+
     <p><a href="login.php">Log in</a> of <a href="registreren.php">Registreer</a> om producten aan je winkelmand toe te voegen.</p>
 </body>
+
 </html>

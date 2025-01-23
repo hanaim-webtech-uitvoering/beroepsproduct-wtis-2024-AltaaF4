@@ -16,25 +16,15 @@ $order_id = intval($_GET['order_id']);
 $db = maakVerbinding();
 
 // Haal basisinformatie van de bestelling op
-$orderQuery = "
-    SELECT 
-        po.order_id,
-        po.client_name,
-        po.datetime,
-        po.status,
+$orderQuery = "SELECT po.order_id, po.client_name, po.datetime, po.status,
         CASE 
             WHEN po.status = 1 THEN 'In behandeling'
             WHEN po.status = 2 THEN 'Verzonden'
             WHEN po.status = 3 THEN 'Afgeleverd'
             ELSE 'Onbekend'
-        END AS status_name,
-        po.address,
-        po.personnel_username
-    FROM 
-        Pizza_Order po
-    WHERE 
-        po.order_id = ?
-";
+        END AS status_name, po.address, po.personnel_username
+    FROM Pizza_Order po
+    WHERE po.order_id = ?";
 
 $orderStmt = $db->prepare($orderQuery);
 $orderStmt->execute([$order_id]);
@@ -45,40 +35,23 @@ if (!$order) {
 }
 
 // Haal producten en hun details op
-$productQuery = "
-    SELECT 
-        pop.product_name,
-        pop.quantity,
-        p.price,
-        p.type_id
-    FROM 
-        Pizza_Order_Product pop
-    INNER JOIN 
-        Product p
-    ON 
-        pop.product_name = p.name
-    WHERE 
-        pop.order_id = ?
-";
+$productQuery = "SELECT pop.product_name, pop.quantity, p.price, p.type_id
+FROM Pizza_Order_Product pop
+INNER JOIN Product p
+ON pop.product_name = p.name
+WHERE pop.order_id = ?";
 
 $productStmt = $db->prepare($productQuery);
 $productStmt->execute([$order_id]);
 $products = $productStmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Haal ingrediënten per product op
-$ingredientsQuery = "
-    SELECT 
-        pi.product_name,
-        pi.ingredient_name
-    FROM 
-        Product_Ingredient pi
-    WHERE 
-        pi.product_name IN (
-            SELECT product_name 
-            FROM Pizza_Order_Product 
-            WHERE order_id = ?
-        )
-";
+$ingredientsQuery = "SELECT pi.product_name, pi.ingredient_name
+FROM Product_Ingredient pi
+WHERE pi.product_name IN (
+SELECT product_name 
+FROM Pizza_Order_Product 
+WHERE order_id = ?)";
 
 $ingredientStmt = $db->prepare($ingredientsQuery);
 $ingredientStmt->execute([$order_id]);
@@ -127,31 +100,31 @@ $ingredients = $ingredientStmt->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
         </thead>
         <tbody>
             <?php foreach ($products as $product): ?>
-            <tr>
-                <td>
-                    <?= htmlspecialchars($product['product_name']) ?>
-                </td>
-                <td>
-                    <?= htmlspecialchars($product['quantity']) ?>
-                </td>
-                <td>€
-                    <?= htmlspecialchars(number_format($product['price'], 2)) ?>
-                </td>
-                <td>
-                    <?= htmlspecialchars($product['type_id']) ?>
-                </td>
-                <td>
-                    <?php 
-                            $productName = $product['product_name'];
-                            if (isset($ingredients[$productName])) {
-                                $ingredientList = array_column($ingredients[$productName], 'ingredient_name');
-                                echo htmlspecialchars(implode(', ', $ingredientList));
-                            } else {
-                                echo 'Geen ingrediënten.';
-                            }
+                <tr>
+                    <td>
+                        <?= htmlspecialchars($product['product_name']) ?>
+                    </td>
+                    <td>
+                        <?= htmlspecialchars($product['quantity']) ?>
+                    </td>
+                    <td>€
+                        <?= htmlspecialchars(number_format($product['price'], 2)) ?>
+                    </td>
+                    <td>
+                        <?= htmlspecialchars($product['type_id']) ?>
+                    </td>
+                    <td>
+                        <?php
+                        $productName = $product['product_name'];
+                        if (isset($ingredients[$productName])) {
+                            $ingredientList = array_column($ingredients[$productName], 'ingredient_name');
+                            echo htmlspecialchars(implode(', ', $ingredientList));
+                        } else {
+                            echo 'Geen ingrediënten.';
+                        }
                         ?>
-                </td>
-            </tr>
+                    </td>
+                </tr>
             <?php endforeach; ?>
         </tbody>
     </table>

@@ -24,7 +24,7 @@ foreach ($_SESSION['cart'] as $item) {
 // Verwerk het formulier voor het afronden van de bestelling
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $address = trim($_POST['address']);
-    
+
     if (empty($address)) {
         $error = "Vul alle verplichte velden in.";
     } else {
@@ -35,10 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         try {
             // Voeg de bestelling toe aan de Pizza_Order-tabel
-            $orderQuery = "
-                INSERT INTO Pizza_Order (client_username, client_name, personnel_username, datetime, status, address) 
-                VALUES (?, ?, ?, GETDATE(), ?, ?)
-            ";
+            $orderQuery = "INSERT INTO Pizza_Order (client_username, client_name, personnel_username, datetime, status, address) 
+            VALUES (?, ?, ?, GETDATE(), ?, ?)";
             $orderStmt = $db->prepare($orderQuery);
             $orderStmt->execute([
                 $username,        // client_username
@@ -52,10 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $order_id = $db->lastInsertId();
 
             // Voeg producten toe aan de Pizza_Order_Product-tabel
-            $productQuery = "
-                INSERT INTO Pizza_Order_Product (order_id, product_name, quantity) 
-                VALUES (?, ?, ?)
-            ";
+            $productQuery = "INSERT INTO Pizza_Order_Product (order_id, product_name, quantity) 
+                VALUES (?, ?, ?)";
             $productStmt = $db->prepare($productQuery);
 
             foreach ($_SESSION['cart'] as $item) {
@@ -86,11 +82,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Afrekenen</title>
 </head>
+
 <body>
     <h1>Afrekenen</h1>
 
@@ -125,13 +123,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="POST">
             <label for="address">Verzendadres:</label><br>
             <input type="text" id="address" name="address" placeholder="Uw adres" required><br>
-            
+
             <?php if (isset($error)): ?>
                 <p style="color: red;"><?= htmlspecialchars($error) ?></p>
             <?php endif; ?>
-            
+
             <button type="submit">Bestelling Plaatsen</button>
         </form>
     </div>
 </body>
+
 </html>
