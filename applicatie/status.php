@@ -62,11 +62,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <tbody>
                 <?php foreach ($orders as $order): ?>
                     <tr>
-                        <td>
-                            <a href="detailoverzicht-bestelling.php?order_id=<?= urlencode($order['order_id']) ?>">
-                                <?= htmlspecialchars($order['order_id']) ?>
-                            </a>
-                        </td>
+                        <td><?=htmlspecialchars($order['order_id']) ?></td>
                         <td><?= htmlspecialchars($order['datetime']) ?></td>
                         <td><?= htmlspecialchars($order['status_name']) ?></td>
                         <td><?= htmlspecialchars($order['address']) ?></td>

@@ -72,7 +72,7 @@ print_r($_SESSION);
     </table>
     <div class="actions">
     <a href="loguit.php">Uitloggen</a> | 
-    <a href="winkelmandje.php">Afrekenen</a> |
+    <a href="afrekenen.php">Afrekenen</a> |
     <a href="status.php">Status Bestelling(en)</a>
 </div>
 

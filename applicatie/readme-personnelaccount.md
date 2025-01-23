@@ -5,6 +5,6 @@ https://onlinephp.io/password-hash
 daarna gebruik je dit commando
 
 INSERT INTO [User] (username, password, first_name, last_name, role, address) 
-VALUES ('personeel123', 'HIER UITKOMST VAN PASSWORD HASH', 'John', 'Doe', 'Personnel', 'Adresstraat 123');
+VALUES ('personeel123', 'WW HASH HIER', 'John', 'Doe', 'Personnel', 'Adresstraat 123');
 
 done
