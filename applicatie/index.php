@@ -1,7 +1,6 @@
 <?php
-// Deze pagina is voor niet-ingelogde gebruikers of voor gebruikers die niet hun winkelmand kunnen beheren
-
 // Maak verbinding met de database
+session_start();
 require_once('db_connectie.php');
 $db = maakVerbinding();
 
@@ -18,6 +17,7 @@ $query = "
 
 $stmt = $db->query($query);
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+print_r($_SESSION);
 ?>
 
 <!DOCTYPE html>
@@ -26,24 +26,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 50%;
-            margin: auto;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        h1 {
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
     <h1>Menu</h1>

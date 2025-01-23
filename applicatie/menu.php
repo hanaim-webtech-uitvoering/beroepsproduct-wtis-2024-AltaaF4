@@ -3,7 +3,7 @@ session_start();
 require_once('db_connectie.php');
 
 // Controleer of de gebruiker is ingelogd
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Client') {
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'Client') {
     // Als de gebruiker niet is ingelogd als Client, stuur hem terug naar index.php
     header("Location: index.php");
     exit;
@@ -18,17 +18,14 @@ $db = maakVerbinding();
 
 // Haal alle producten op
 $query = "
-    SELECT 
-        name,
-        price
-    FROM 
-        Product
-    ORDER BY 
-        name ASC
+    SELECT name, price 
+    FROM Product 
+    ORDER BY name ASC
 ";
 
 $stmt = $db->query($query);
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+print_r($_SESSION);
 ?>
 
 <!DOCTYPE html>
@@ -37,32 +34,11 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 50%;
-            margin: auto;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        h1, .actions {
-            text-align: center;
-        }
-        .actions a {
-            margin: 0 10px;
-        }
-    </style>
-</head>
+   </head>
 <body>
     <h1>Menu</h1>
     <div class="actions">
-        <p>Welkom, <?= htmlspecialchars($username) ?>! (Rol: <?= htmlspecialchars($role) ?>)</p>
+        <p>Welkom, <?= htmlspecialchars($role) . ' ' .  htmlspecialchars($username) ?></p>
     </div>
     <table>
         <thead>
@@ -79,7 +55,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?= htmlspecialchars($product['name']) ?></td>
                         <td><?= number_format($product['price'], 2, ',', '.') ?></td>
                         <td>
-                            <form method="POST" action="winkelmand.php">
+                            <form method="POST" action="winkelmandje-proces.php">
                                 <input type="hidden" name="product_name" value="<?= htmlspecialchars($product['name']) ?>">
                                 <input type="hidden" name="price" value="<?= htmlspecialchars($product['price']) ?>">
                                 <button type="submit">Toevoegen</button>
@@ -94,5 +70,11 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php endif; ?>
         </tbody>
     </table>
+    <div class="actions">
+    <a href="loguit.php">Uitloggen</a> | 
+    <a href="winkelmandje.php">Afrekenen</a> |
+    <a href="status.php">Status Bestelling(en)</a>
+</div>
+
 </body>
 </html>

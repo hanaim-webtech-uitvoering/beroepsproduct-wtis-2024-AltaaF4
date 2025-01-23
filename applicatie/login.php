@@ -20,27 +20,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user && password_verify($password, $user['password'])) {
-        // Wachtwoord klopt, start sessie
-        $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
 
         // Controleer de rol van de gebruiker en stuur door naar de juiste pagina
         if ($user['role'] === 'Client') {
             header("Location: menu.php");
+            exit; 
         } elseif ($user['role'] === 'Personnel') {
             header("Location: bestellingoverzicht-personeel.php");
+            exit; 
         } else {
-            // Onbekende rol
             die('Onbekende gebruikersrol.');
         }
+        
         exit;
     } else {
         // Ongeldig wachtwoord of gebruikersnaam
         echo "Ongeldige gebruikersnaam of wachtwoord.";
     }
 }
-
+print_r($_SESSION);
 ?>
 <!DOCTYPE html>
 <html lang="nl">

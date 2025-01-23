@@ -22,6 +22,12 @@ $orderQuery = "
         po.client_name,
         po.datetime,
         po.status,
+        CASE 
+            WHEN po.status = 1 THEN 'In behandeling'
+            WHEN po.status = 2 THEN 'Verzonden'
+            WHEN po.status = 3 THEN 'Afgeleverd'
+            ELSE 'Onbekend'
+        END AS status_name,
         po.address,
         po.personnel_username
     FROM 
@@ -99,7 +105,7 @@ $ingredients = $ingredientStmt->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
         <?= htmlspecialchars($order['datetime']) ?>
     </p>
     <p><strong>Status:</strong>
-        <?= htmlspecialchars($order['status']) ?>
+        <?= htmlspecialchars($order['status_name']) ?>
     </p>
     <p><strong>Adres:</strong>
         <?= htmlspecialchars($order['address']) ?>
